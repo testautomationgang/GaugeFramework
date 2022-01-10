@@ -1,0 +1,35 @@
+{"logLevel":"debug","message":"multithreading is set to false"}
+{"logLevel":"debug","message":"Using reflection to scan dependencies for gauge implementations..."}
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+{"logLevel":"debug","message":"gauge-java took 1381milliseconds to load and scan. This should be less than 'runner_connection_timeout' config value."}
+{"logLevel":"debug","message":"run 'gauge config runner_connection_timeout' and verify that it is < 1381"}
+{"logLevel":"debug","message":"starting gRPC server..."}
+{"logLevel":"debug","message":"started gRPC server on port 64265"}
+{"logLevel":"info","message":"Listening on port:64265"}
+{"logLevel":"debug","message":"Scanning packages for steps"}
+{"logLevel":"debug","message":"Comparing 'StepImplementation.ensureInstallationInstructionsAreAvailable' and 'StepImplementation.ensureInstallationInstructionsAreAvailable'"}
+{"logLevel":"debug","message":"Found Ensure installation instructions are available in current project scope."}
+{"logLevel":"debug","message":"Comparing 'StepImplementation.gotoGetStartedPage' and 'StepImplementation.gotoGetStartedPage'"}
+{"logLevel":"debug","message":"Found Go to Gauge Get Started Page in current project scope."}
+{"logLevel":"debug","message":"Comparing 'StepImplementation.implementation1' and 'StepImplementation.implementation1'"}
+{"logLevel":"debug","message":"Found Open the Gauge homepage in current project scope."}
+{"logLevel":"debug","message":"Scanning packages for hooks"}
+{"logLevel":"debug","message":"Scanned steps (using static parsing + reflections): "}
+{"logLevel":"debug","message":"\tOpen the Gauge homepage : public void implementation1()"}
+{"logLevel":"debug","message":"\tGo to Gauge Get Started Page : public void gotoGetStartedPage() throws InterruptedException"}
+{"logLevel":"debug","message":"\tEnsure installation instructions are available : public void ensureInstallationInstructionsAreAvailable() throws InterruptedException"}
+Starting ChromeDriver 97.0.4692.71 (adefa7837d02a07a604c1e6eff0b3a09422ab88d-refs/branch-heads/4692@{#1247}) on port 15025
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+Jan 07, 2022 2:47:02 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+INFO: Detected dialect: W3C
+{"logLevel":"debug","message":"Executing 'Open the Gauge homepage' using 'class StepImplementation.implementation1"}
+{"logLevel":"debug","message":"Executing 'Go to Gauge Get Started Page' using 'class StepImplementation.gotoGetStartedPage"}
+{"logLevel":"debug","message":"Executing 'Ensure installation instructions are available' using 'class StepImplementation.ensureInstallationInstructionsAreAvailable"}
+{"logLevel":"debug","message":"Killing Java runner..."}
+{"logLevel":"debug","message":"Stopping execution pool..."}
+{"logLevel":"debug","message":"Shutting down grpc server..."}
+{"logLevel":"debug","message":"Runner killed gracefully."}
