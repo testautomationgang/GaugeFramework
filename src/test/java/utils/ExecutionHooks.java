@@ -1,4 +1,4 @@
-package com.automation.utils;
+package utils;
 
 import com.thoughtworks.gauge.*;
 import org.openqa.selenium.WebDriver;

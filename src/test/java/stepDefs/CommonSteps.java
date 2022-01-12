@@ -1,4 +1,4 @@
-package com.automation.stepDefs;
+package stepDefs;
 
 import com.thoughtworks.gauge.Gauge;
 import com.thoughtworks.gauge.Step;
