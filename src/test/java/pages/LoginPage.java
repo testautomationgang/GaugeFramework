@@ -11,11 +11,14 @@ public class LoginPage extends PageInit {
 
     private final WebDriver webDriver;
 
-    @FindBy(name = "login")
+    @FindBy(id = "userName")
     private WebElement username;
 
-    @FindBy(name = "password")
+    @FindBy(id = "password")
     private WebElement password;
+
+    @FindBy(id = "login")
+    private WebElement loginBtn;
 
     public LoginPage(){
         this.webDriver = DriverFactory.getInstance().getDriver();
@@ -27,6 +30,8 @@ public class LoginPage extends PageInit {
         //password.sendKeys(pwd);
         enterText(username,userName);
         enterText(password,pwd);
+        click(webDriver,loginBtn);
+
     }
 
 
