@@ -1,4 +1,4 @@
-package utils;
+package com.automation.utils;
 
 public class GlobalConstants {
 

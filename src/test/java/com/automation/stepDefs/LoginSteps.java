@@ -1,4 +1,4 @@
-package stepDefs;
+package com.automation.stepDefs;
 
 import com.thoughtworks.gauge.Step;
 import com.automation.pages.LoginPage;
