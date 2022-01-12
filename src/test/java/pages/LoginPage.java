@@ -1,12 +1,13 @@
-package pages;
+package com.automation.pages;
 
+import com.automation.init.PageInit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import utils.DriverFactory;
+import com.automation.utils.DriverFactory;
 
-public class LoginPage {
+public class LoginPage extends PageInit {
 
     private final WebDriver webDriver;
 
@@ -22,8 +23,10 @@ public class LoginPage {
     }
 
     public void login(String userName, String pwd){
-        username.sendKeys(userName,pwd);
-        password.sendKeys(pwd);
+        //username.sendKeys(userName,pwd);
+        //password.sendKeys(pwd);
+        enterText(username,userName);
+        enterText(password,pwd);
     }
 
 

@@ -1,7 +1,8 @@
-package stepDefs;
+package com.automation.stepDefs;
 
 import com.thoughtworks.gauge.Step;
-import pages.LoginPage;
+import com.automation.pages.LoginPage;
+
 
 public class LoginSteps {
 

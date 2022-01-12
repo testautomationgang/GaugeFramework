@@ -1,10 +1,8 @@
-package stepDefs;
+package com.automation.stepDefs;
 
 import com.thoughtworks.gauge.Gauge;
 import com.thoughtworks.gauge.Step;
-import utils.ExecutionHooks;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import com.automation.utils.ExecutionHooks;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
