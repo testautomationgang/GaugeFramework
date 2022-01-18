@@ -30,7 +30,7 @@ public class LoginPage extends PageInit {
         //password.sendKeys(pwd);
         enterText(username,userName);
         enterText(password,pwd);
-        click(webDriver,loginBtn);
+        click(loginBtn);
 
     }
 

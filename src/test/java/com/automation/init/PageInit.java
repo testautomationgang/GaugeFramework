@@ -1,11 +1,10 @@
 package com.automation.init;
 
+import com.thoughtworks.gauge.Gauge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.automation.utils.DriverFactory;
@@ -17,21 +16,36 @@ public class PageInit {
     private static WebDriverWait wait = new WebDriverWait(driver
             , 15);
 
+    public PageInit(){
+        System.out.println("Parent class constructor");
+        PageFactory.initElements(DriverFactory.getInstance().getDriver(), this);
+    }
 
-    public static void click(WebDriver driver, WebElement element) {
+
+    /**
+     * @method: click -> This method is used to click on the element provided
+     * This method handles exceptions like: StaleElementReferenceException,
+     * ElementClickInterceptedException
+     * @param element
+     */
+    public static void click(WebElement element) {
         try {
-            (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(element));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
             element.click();
         } catch (StaleElementReferenceException sere) {
                 // simply retry finding the element in the refreshed DOM
                 element.click();
-        }catch (TimeoutException toe) {
-            logger.error("Element not clickable" + element.getAttribute("name"));
+        }catch (ElementClickInterceptedException toe) {
+            //Used Javascript Executor as sometimes the click is received by some Ads
+            ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+            logger.info("Trying using Javascript Executor");
+        }catch (Exception e){
+            logger.error("Error occurred while clicking element");
         }
         }
 
     /**
-     *
+     * This method
      * @param element
      * @param text
      */
@@ -60,6 +74,28 @@ public class PageInit {
             }catch (Exception e){
                 logger.error("Error occurred: ",e);
             }
+        }
+
+    /**
+     *
+     * @param accept
+     * @return
+     */
+    protected String acceptOrRejectAlertAndGetText(boolean accept){
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        String text = alert.getText();
+        logger.info("Alert text is: " + text);
+        Gauge.writeMessage("Alert text is: " + text);
+        if(accept){
+            alert.accept();
+            logger.info("Alert accepted...");
+        }else {
+            alert.dismiss();
+            logger.info("Alert rejected...");
+        }
+
+        return text;
         }
 
 
