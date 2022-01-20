@@ -17,7 +17,7 @@ public class PageInit {
             , 15);
 
     public PageInit(){
-        System.out.println("Parent class constructor");
+        logger.info("Parent class constructor called..");
         PageFactory.initElements(DriverFactory.getInstance().getDriver(), this);
     }
 

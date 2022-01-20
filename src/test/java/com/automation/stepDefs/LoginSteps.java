@@ -19,11 +19,11 @@ public class LoginSteps {
         loginPage.login(username,passwd);
     }
 
-    @Step("Login using user from property file")
-    public void doLoginUsingProperty(){
+    @Step("Login using userid <userid> and password <pswd> from property file")
+    public void doLoginUsingProperty(String userid, String pswd){
         //Call login method of Login Page
-        String uname = System.getenv("USERNAME");
-        String pwd = System.getenv("PASSWORD");
+        String uname = System.getenv(userid);
+        String pwd = System.getenv(pswd);
         loginPage.login(uname,pwd);
     }
 }

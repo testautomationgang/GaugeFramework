@@ -82,6 +82,8 @@ public class DriverFactory {
 	            }
 
                 options.addArguments("--start-maximized");
+                //To accept the SSL certification error
+                options.setAcceptInsecureCerts(true);
                 driver = new ChromeDriver(options);
                 //putting implicit wait of 5 seconds
                 driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
