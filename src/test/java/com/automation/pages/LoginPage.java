@@ -20,6 +20,18 @@ public class LoginPage extends PageInit {
     @FindBy(id = "login")
     private WebElement loginBtn;
 
+    @FindBy(xpath = "//*[contains(text(),'Log out')]")
+    private WebElement logoutBtn;
+
+    @FindBy(xpath = "//div[contains(text(),'Elements')]")
+    private WebElement elements;
+
+    @FindBy(xpath = "//span[contains(text(),'Buttons')]")
+    private WebElement buttons;
+
+    @FindBy(id = "doubleClickBtn")
+    private WebElement doubleclickbtn;
+
     public LoginPage(){
         this.webDriver = DriverFactory.getInstance().getDriver();
         PageFactory.initElements(webDriver, this);
@@ -32,6 +44,18 @@ public class LoginPage extends PageInit {
         enterText(password,pwd);
         click(loginBtn);
 
+
+
+    }
+
+    public void logout(){click(logoutBtn);
+
+    }
+
+    public void doubleclickbtn(){
+        click(elements);
+        click(buttons);
+        doubleclick(doubleclickbtn);
     }
 
 

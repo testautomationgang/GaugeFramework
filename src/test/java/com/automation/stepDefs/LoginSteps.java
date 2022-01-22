@@ -26,4 +26,14 @@ public class LoginSteps {
         String pwd = System.getenv(pswd);
         loginPage.login(uname,pwd);
     }
+
+    @Step("User Logout")
+    public void doLogout(){
+        loginPage.logout();
+    }
+
+    @Step("User expands elements section & tests double click button")
+    public void doubleclick(){
+        loginPage.doubleclickbtn();
+    }
 }

@@ -4,6 +4,7 @@ import com.thoughtworks.gauge.Gauge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,6 +44,24 @@ public class PageInit {
             logger.error("Error occurred while clicking element");
         }
         }
+
+    public static void doubleclick(WebElement element) {
+        //Instantiating Actions class
+        Actions act = new Actions(driver);
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            act.doubleClick(element).perform();
+        } catch (StaleElementReferenceException sere) {
+            // simply retry finding the element in the refreshed DOM
+            act.doubleClick(element).perform();
+        }catch (ElementClickInterceptedException toe) {
+            //Used Javascript Executor as sometimes the click is received by some Ads
+            ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+            logger.info("Trying using Javascript Executor");
+        }catch (Exception e){
+            logger.error("Error occurred while clicking element");
+        }
+    }
 
     /**
      * This method
