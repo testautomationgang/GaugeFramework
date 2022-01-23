@@ -58,7 +58,7 @@ public class CommonSteps {
         Gauge.writeMessage("Added value: "+value +" for key:" + key + " in data store");
     }
 
-    @Step("Add value of key <key> from data store")
+    @Step("Get value of key <key> from data store")
     public void getData(String key){
         ScenarioDataStore.get(key);
         Gauge.writeMessage("Value fetched from data store ");

@@ -9,7 +9,6 @@ import com.automation.utils.DriverFactory;
 
 public class LoginPage extends PageInit {
 
-    private final WebDriver webDriver;
 
     @FindBy(id = "userName")
     private WebElement username;
@@ -32,10 +31,6 @@ public class LoginPage extends PageInit {
     @FindBy(id = "doubleClickBtn")
     private WebElement doubleclickbtn;
 
-    public LoginPage(){
-        this.webDriver = DriverFactory.getInstance().getDriver();
-        PageFactory.initElements(webDriver, this);
-    }
 
     public void login(String userName, String pwd){
         //username.sendKeys(userName,pwd);

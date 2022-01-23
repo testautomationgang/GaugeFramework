@@ -33,13 +33,13 @@ public class PageInit {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(element));
             element.click();
-        } catch (StaleElementReferenceException sere) {
-                // simply retry finding the element in the refreshed DOM
-                element.click();
-        }catch (ElementClickInterceptedException toe) {
+        } catch (ElementClickInterceptedException toe) {
             //Used Javascript Executor as sometimes the click is received by some Ads
             ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
             logger.info("Trying using Javascript Executor");
+        }catch (TimeoutException e){
+            element.click();//simply retry
+            logger.error("Error occurred while clicking element");
         }catch (Exception e){
             logger.error("Error occurred while clicking element");
         }
@@ -117,8 +117,11 @@ public class PageInit {
         return text;
         }
 
-
-
+    protected String getTextFromElement(WebElement element){
+        wait.until(ExpectedConditions.visibilityOf(element));
+        String text = element.getText();
+        return text;
+    }
 
 
 
