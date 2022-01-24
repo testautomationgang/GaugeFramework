@@ -51,15 +51,22 @@ public class PageInit {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(element));
             act.doubleClick(element).perform();
-        } catch (StaleElementReferenceException sere) {
-            // simply retry finding the element in the refreshed DOM
-            act.doubleClick(element).perform();
-        }catch (ElementClickInterceptedException toe) {
-            //Used Javascript Executor as sometimes the click is received by some Ads
-            ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
-            logger.info("Trying using Javascript Executor");
         }catch (Exception e){
             logger.error("Error occurred while clicking element");
+        }
+    }
+
+    public static void rightclick(WebElement element) {
+        //Instantiating Actions class
+        Actions act = new Actions(driver);
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            act.contextClick(element).perform();
+        } catch (StaleElementReferenceException sere) {
+            // simply retry finding the element in the refreshed DOM
+            act.contextClick(element).perform();
+        }catch (Exception e){
+            logger.error("Error occurred while right clicking element");
         }
     }
 

@@ -36,4 +36,9 @@ public class LoginSteps {
     public void doubleclick(){
         loginPage.doubleclickbtn();
     }
+
+    @Step("User expands elements section & tests right click button")
+    public void rightClick(){
+        loginPage.rightclickbtn();
+    }
 }

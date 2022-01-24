@@ -11,3 +11,6 @@ Login Test from Property
 * Login using userid "LOGINID" and password "PASSWORD" from property file
 * User wait for "5" seconds
 * User expands elements section & tests double click button
+* User wait for "5" seconds
+* User expands elements section & tests right click button
+* User wait for "5" seconds
