@@ -57,7 +57,7 @@ public class LoginPage extends PageInit {
     }
 
     public void rightclickbtn(){
-        doubleclick(rightclickBtn);
+        rightclick(rightclickBtn);
     }
 
 
