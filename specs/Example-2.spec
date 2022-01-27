@@ -10,7 +10,14 @@ Login Test from Property
 * User opens Login page
 * Login using userid "LOGINID" and password "PASSWORD" from property file
 * User wait for "5" seconds
-* User expands elements section & tests double click button
+* User click on Elements section
+* User click on Button section
+* User perform double click on DoubleClickButton element
 * User wait for "5" seconds
-* User expands elements section & tests right click button
+* User perform right click on RightClickButton element
 * User wait for "5" seconds
+
+____________
+Tear down steps
+
+User logout from the application

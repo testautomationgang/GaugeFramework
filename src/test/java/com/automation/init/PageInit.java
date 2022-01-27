@@ -1,5 +1,6 @@
 package com.automation.init;
 
+import com.automation.actions.SeleniumActions;
 import com.thoughtworks.gauge.Gauge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.automation.utils.DriverFactory;
 
-public class PageInit {
+public class PageInit extends SeleniumActions {
 
     private static WebDriver driver = DriverFactory.getInstance().getDriver();
     private static Logger logger = LogManager.getLogger(PageInit.class);
@@ -23,112 +24,11 @@ public class PageInit {
     }
 
 
-    /**
-     * @method: click -> This method is used to click on the element provided
-     * This method handles exceptions like: StaleElementReferenceException,
-     * ElementClickInterceptedException
-     * @param element
-     */
-    public static void click(WebElement element) {
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-            element.click();
-        } catch (ElementClickInterceptedException toe) {
-            //Used Javascript Executor as sometimes the click is received by some Ads
-            ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
-            logger.info("Trying using Javascript Executor");
-        }catch (TimeoutException e){
-            element.click();//simply retry
-            logger.error("Error occurred while clicking element");
-        }catch (Exception e){
-            logger.error("Error occurred while clicking element");
-        }
-        }
 
-    public static void doubleclick(WebElement element) {
-        //Instantiating Actions class
-        Actions act = new Actions(driver);
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-            act.doubleClick(element).perform();
-        }catch (Exception e){
-            logger.error("Error occurred while clicking element");
-        }
-    }
 
-    public static void rightclick(WebElement element) {
-        //Instantiating Actions class
-        Actions act = new Actions(driver);
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-            act.contextClick(element).perform();
-        } catch (StaleElementReferenceException sere) {
-            // simply retry finding the element in the refreshed DOM
-            act.contextClick(element).perform();
-        }catch (Exception e){
-            logger.error("Error occurred while right clicking element");
-        }
-    }
 
-    /**
-     * This method
-     * @param element
-     * @param text
-     */
-    public static void enterText(WebElement element,String text){
-        try{
-            wait.until(ExpectedConditions.visibilityOf(element));
-            element.sendKeys(text);
-            logger.debug("Entered text: " + text);
 
-        }catch (StaleElementReferenceException se){
-            element.sendKeys(text);
-        }catch (Exception e){
-            logger.error("Error occurred: ",e);
-        }
-        }
 
-        public static void uploadFile(WebElement element, String filePath){
-
-            try{
-                wait.until(ExpectedConditions.visibilityOf(element));
-                element.sendKeys(filePath);
-                logger.debug("Entered text: " + filePath);
-
-            }catch (StaleElementReferenceException se){
-                element.sendKeys(filePath);
-            }catch (Exception e){
-                logger.error("Error occurred: ",e);
-            }
-        }
-
-    /**
-     *
-     * @param accept
-     * @return
-     */
-    protected String acceptOrRejectAlertAndGetText(boolean accept){
-        wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = driver.switchTo().alert();
-        String text = alert.getText();
-        logger.info("Alert text is: " + text);
-        Gauge.writeMessage("Alert text is: " + text);
-        if(accept){
-            alert.accept();
-            logger.info("Alert accepted...");
-        }else {
-            alert.dismiss();
-            logger.info("Alert rejected...");
-        }
-
-        return text;
-        }
-
-    protected String getTextFromElement(WebElement element){
-        wait.until(ExpectedConditions.visibilityOf(element));
-        String text = element.getText();
-        return text;
-    }
 
 
 

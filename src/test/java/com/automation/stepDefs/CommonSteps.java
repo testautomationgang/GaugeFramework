@@ -1,5 +1,6 @@
 package com.automation.stepDefs;
 
+import com.automation.utils.DatastoreFactory;
 import com.thoughtworks.gauge.Gauge;
 import com.thoughtworks.gauge.Step;
 import com.automation.utils.ExecutionHooks;
@@ -52,13 +53,13 @@ public class CommonSteps {
 
     }
 
-    @Step("Add value <value> with respect to key <key> into data store")
+    @Step("User store value <value> with respect to key <key> into datastore")
     public void addData(String value, String key){
-        ScenarioDataStore.put(key,value);
-        Gauge.writeMessage("Added value: "+value +" for key:" + key + " in data store");
+        DatastoreFactory.addValueToDataStoreAgainstKey(key,value);
+        Gauge.writeMessage("Added value: "+value +" for key:" + key + " in datastore");
     }
 
-    @Step("Get value of key <key> from data store")
+    @Step("User get the value of key <key> from datastore")
     public void getData(String key){
         ScenarioDataStore.get(key);
         Gauge.writeMessage("Value fetched from data store ");

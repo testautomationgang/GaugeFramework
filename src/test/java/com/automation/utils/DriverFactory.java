@@ -3,14 +3,24 @@ package com.automation.utils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.CapabilityType;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+
 
 public class DriverFactory {
 
@@ -70,23 +80,30 @@ public class DriverFactory {
                  * If the binaries are not present on the machine
                  * then it will download the WebDriver binaries.
                  */
+                ChromeOptions options = new ChromeOptions();
+                LoggingPreferences logPrefs = new LoggingPreferences();
+                logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+                options.setCapability("goog:loggingPrefs", logPrefs );
                 WebDriverManager.chromedriver().setup();
                 HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
                 chromePrefs.put("profile.default_content_settings.popups", 0);
                 chromePrefs.put("download.default_directory", GlobalConstants.DOWNLOAD_FILE_PATH);
 
-	            ChromeOptions options = new ChromeOptions();
+
 	            if ("Y".equalsIgnoreCase(System.getenv("HEADLESS"))) {
 	                options.addArguments("--headless");
 	                options.addArguments("--disable-gpu");
 	            }
 
-                options.addArguments("--start-maximized");
+                //options.addArguments("--start-maximized");
                 //To accept the SSL certification error
                 options.setAcceptInsecureCerts(true);
                 driver = new ChromeDriver(options);
                 //putting implicit wait of 5 seconds
                 driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+                driver.manage().window().maximize();
+                //driver.get("https://www.youtube.com/");
+                //captureNetworkLogs();
 	            return driver;
         }
     }
@@ -97,5 +114,36 @@ public class DriverFactory {
     public void closeDriver(){
         webDriver.get().quit();
         logger.debug("Driver closed successfully...");
+    }
+
+    public void captureNetworkLogs(){
+        LogEntries logs = driver.manage().logs().get(LogType.PERFORMANCE);
+        String currentURL = driver.getCurrentUrl();
+
+        int status = -1;
+        System.out.println("\\nList of log entries:\\n");
+        for (Iterator<LogEntry> it = logs.iterator(); it.hasNext();) {
+            LogEntry entry = it.next();
+            try {
+                JSONObject json = new JSONObject(entry.getMessage());
+                System.out.println(json.toString());
+                JSONObject message = json.getJSONObject("message");
+                String method = message.getString("method");
+                if (method != null && "Network.responseReceived".equals(method)) {
+                    JSONObject params = message.getJSONObject("params");
+                    JSONObject response = params.getJSONObject("response");
+                    String messageUrl = response.getString("url");
+                    if (currentURL.equals(messageUrl)) {
+                        status = response.getInt("status");
+                        System.out.println("---------- bingo !!!!!!!!!!!!!! returned response for " + messageUrl
+                                + ": " + status);
+                        System.out.println("---------- bingo !!!!!!!!!!!!!! headers: " + response.get("headers"));
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 }

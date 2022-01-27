@@ -27,18 +27,10 @@ public class LoginSteps {
         loginPage.login(uname,pwd);
     }
 
-    @Step("User Logout")
+    @Step("User logout from the application")
     public void doLogout(){
         loginPage.logout();
     }
 
-    @Step("User expands elements section & tests double click button")
-    public void doubleclick(){
-        loginPage.doubleclickbtn();
-    }
 
-    @Step("User expands elements section & tests right click button")
-    public void rightClick(){
-        loginPage.rightclickbtn();
-    }
 }

@@ -1,15 +1,13 @@
 package com.automation.pages;
 
+import com.automation.actions.MouseActions;
 import com.automation.init.PageInit;
-import com.automation.utils.DriverFactory;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
+
 
 public class ElementsPage extends PageInit {
-    //private final WebDriver webDriver;
 
     @FindBy(xpath = "//div[@class='header-wrapper']//div[contains(text(),'Elements')]")
     private WebElement elementsDiv;
@@ -19,6 +17,15 @@ public class ElementsPage extends PageInit {
 
     @FindBy(xpath = "//div/ul[@class='menu-list']/li/span[contains(text(),'Check Box')]")
     private WebElement checkBoxElement;
+
+    @FindBy(xpath = "//span[contains(text(),'Buttons')]")
+    private WebElement buttons;
+
+    @FindBy(id = "doubleClickBtn")
+    private WebElement doubleClickBtn;
+
+    @FindBy(id = "rightClickBtn")
+    private WebElement rightClickBtn;
 
 
 
@@ -32,5 +39,17 @@ public class ElementsPage extends PageInit {
 
     public void clickCheckBox(){
         click(checkBoxElement);
+    }
+
+    public void doubleClickOnButton(){
+        MouseActions.doubleClick(doubleClickBtn);
+    }
+
+    public void rightClickOnButton(){
+        MouseActions.rightClick(rightClickBtn);
+    }
+
+    public void clickOnButtonSection(){
+        click(buttons);
     }
 }

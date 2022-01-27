@@ -22,4 +22,19 @@ public class ElementsPageStepDefs {
     public void clickOnCheckBox()  {
         elementsPage.clickCheckBox();
     }
+
+    @Step("User perform double click on DoubleClickButton element")
+    public void doubleclick(){
+        elementsPage.doubleClickOnButton();
+    }
+
+    @Step("User perform right click on RightClickButton element")
+    public void rightClick(){
+        elementsPage.rightClickOnButton();
+    }
+
+    @Step("User click on Button section")
+    public void clickOnButtonSection()  {
+        elementsPage.clickOnButtonSection();
+    }
 }

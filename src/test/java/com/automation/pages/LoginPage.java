@@ -25,40 +25,20 @@ public class LoginPage extends PageInit {
     @FindBy(xpath = "//div[contains(text(),'Elements')]")
     private WebElement elements;
 
-    @FindBy(xpath = "//span[contains(text(),'Buttons')]")
-    private WebElement buttons;
 
-    @FindBy(id = "doubleClickBtn")
-    private WebElement doubleclickbtn;
-
-    @FindBy(id = "rightClickBtn")
-    private WebElement rightclickBtn;
 
 
     public void login(String userName, String pwd){
-        //username.sendKeys(userName,pwd);
-        //password.sendKeys(pwd);
         enterText(username,userName);
         enterText(password,pwd);
         click(loginBtn);
-
-
-
     }
 
-    public void logout(){click(logoutBtn);
-
+    public void logout(){
+        click(logoutBtn);
     }
 
-    public void doubleclickbtn(){
-        click(elements);
-        click(buttons);
-        doubleclick(doubleclickbtn);
-    }
 
-    public void rightclickbtn(){
-        doubleclick(rightclickBtn);
-    }
 
 
 }
