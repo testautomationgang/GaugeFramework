@@ -16,8 +16,10 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -112,38 +114,47 @@ public class DriverFactory {
      * To close the driver
      */
     public void closeDriver(){
-        webDriver.get().quit();
+        webDriver.get().close();
         logger.debug("Driver closed successfully...");
     }
 
-    public void captureNetworkLogs(){
-        LogEntries logs = driver.manage().logs().get(LogType.PERFORMANCE);
-        String currentURL = driver.getCurrentUrl();
+    public void quitDriver(){
+        webDriver.get().quit();
+        logger.debug("Driver quit successfully...");
+    }
 
-        int status = -1;
-        System.out.println("\\nList of log entries:\\n");
-        for (Iterator<LogEntry> it = logs.iterator(); it.hasNext();) {
-            LogEntry entry = it.next();
-            try {
-                JSONObject json = new JSONObject(entry.getMessage());
-                System.out.println(json.toString());
-                JSONObject message = json.getJSONObject("message");
-                String method = message.getString("method");
-                if (method != null && "Network.responseReceived".equals(method)) {
-                    JSONObject params = message.getJSONObject("params");
-                    JSONObject response = params.getJSONObject("response");
-                    String messageUrl = response.getString("url");
-                    if (currentURL.equals(messageUrl)) {
-                        status = response.getInt("status");
-                        System.out.println("---------- bingo !!!!!!!!!!!!!! returned response for " + messageUrl
-                                + ": " + status);
-                        System.out.println("---------- bingo !!!!!!!!!!!!!! headers: " + response.get("headers"));
-                    }
+    /**
+     * captureNetworkLogs
+     * The below method will capture network logs based on XHR type
+     */
+    public void captureNetworkLogs(){
+        List<LogEntry> entries = driver.manage().logs().get(LogType.PERFORMANCE).getAll();
+        System.out.println(entries.size() + " " + LogType.PERFORMANCE + " log entries found");
+
+        for (LogEntry entry : entries) {
+            JSONObject json = new JSONObject(entry.getMessage());
+            JSONObject message = json.getJSONObject("message");
+            //System.out.println(message.toString());
+            String method = message.getString("method");
+            if (method != null && "Network.responseReceived".equals(method)) {
+                JSONObject params = message.getJSONObject("params");
+                JSONObject response = params.getJSONObject("response");
+                String messageUrl = response.getString("url");
+                String type = params.getString("type");
+                int status = response.getInt("status");
+                if(type.equalsIgnoreCase("xhr")){
+                    System.out.println("Response returned for :" + messageUrl + " is : " + status);
+                    System.out.println(new Date(entry.getTimestamp()) + " " + entry.getLevel() + " " + message.toString());
                 }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
+
         }
     }
+
+    /*public static void main(String[] args) {
+        getInstance().getDriver();
+        getInstance().driver.get("https://www.google.co.in/");
+        getInstance().captureNetworkLogs();
+        getInstance().quitDriver();
+    }*/
 }

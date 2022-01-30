@@ -10,10 +10,11 @@ public class CommonUtils {
     }
 
     public static String checkIfVariableThenGetValue(String key){
+        String value = key;
         if(key.startsWith("$")){
             key = key.substring(1);
-            DatastoreFactory.getValueFromDatastore(key);
+            value = DatastoreFactory.getValueFromDatastore(key);
         }
-        return key;
+        return value;
     }
 }

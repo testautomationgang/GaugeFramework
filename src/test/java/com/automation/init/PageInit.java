@@ -4,6 +4,7 @@ import com.automation.actions.SeleniumActions;
 import com.thoughtworks.gauge.Gauge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
@@ -23,13 +24,10 @@ public class PageInit extends SeleniumActions {
         PageFactory.initElements(DriverFactory.getInstance().getDriver(), this);
     }
 
-
-
-
-
-
-
-
-
+    public void raiseExceptionAndStopExecution(Exception e){
+        DriverFactory.getInstance().captureNetworkLogs();
+        Gauge.captureScreenshot();
+        Assert.fail(e.getMessage());
+    }
 
 }

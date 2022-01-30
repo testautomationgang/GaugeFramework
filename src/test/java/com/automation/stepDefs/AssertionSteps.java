@@ -1,11 +1,11 @@
-package com.automation.utils;
+package com.automation.stepDefs;
 
 import com.thoughtworks.gauge.Gauge;
 import com.thoughtworks.gauge.Step;
 import org.junit.Assert;
 import static com.automation.utils.CommonUtils.*;
 
-public class Assertions {
+public class AssertionSteps {
 
     @Step("User verify that <expected> is equal to <actual>")
     public static void verifyEquals( String expected,String actual){

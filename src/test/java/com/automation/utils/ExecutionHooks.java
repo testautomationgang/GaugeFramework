@@ -12,18 +12,24 @@ public class ExecutionHooks {
 
     @BeforeSuite
     public void initializeDriver(){
-        webDriver = DriverFactory.getInstance().getDriver();
+
     }
 
     // BeforeSpec hook is used to instantiate the webDriver
     @BeforeSpec
     public void beforeSpec(){
+        webDriver = DriverFactory.getInstance().getDriver();
         Gauge.writeMessage("Initiating driver ...");
     }
 
     @AfterSpec
     public void afterSpec(){
-        webDriver.quit();
+        DriverFactory.getInstance().quitDriver();
+    }
+
+    @ContinueOnFailure
+    public void onFailure(){
+        DriverFactory.getInstance().captureNetworkLogs();
     }
 
     // Close the webDriver instance

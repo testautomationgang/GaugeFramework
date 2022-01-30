@@ -11,6 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Iterator;
+import java.util.Set;
+
 public class SeleniumActions {
 
     private static WebDriver driver = DriverFactory.getInstance().getDriver();
@@ -121,11 +124,23 @@ public class SeleniumActions {
         }
     }
 
+    /**
+     * selectDropdownByVisibleText : Select value from dropdown using visible text
+     * @param element
+     * @param text
+     */
     protected void selectDropdownByVisibleText(WebElement element,String text){
-        Select select = new Select(element);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        select.selectByVisibleText(text);
-        logger.info("Selecting value from dropdown by text: " + text);
+        try {
+            Select select = new Select(element);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            select.selectByVisibleText(text);
+            logger.info("Selecting value from dropdown by text: " + text);
+        }catch (TimeoutException te){
+            logger.error("Timeout occurred while waiting for dropdown to be clickable");
+        }catch (Exception e){
+            logger.error("Exception occurred: ",e);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -144,5 +159,45 @@ public class SeleniumActions {
             logger.error("Error occurred while selecting value from dropdown" , e);
 
         }
+    }
+
+    /**
+     * Method: switchToChildWindow()
+     * This method is used to switch to the child window
+     * First it fetches the parent window id, then get all windows id
+     * then it compares with current window. If both window id is different, then switch to window
+     */
+    protected void switchToChildWindow(){
+        // It will return the parent window name as a String
+        String parent=driver.getWindowHandle();
+        Set<String> s=driver.getWindowHandles();
+        // Now iterate using Iterator
+        Iterator<String> it= s.iterator();
+        while(it.hasNext()) {
+            String childWindow=it.next();
+            if(!parent.equals(childWindow)) {
+                wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+                driver.switchTo().window(childWindow);
+                System.out.println("Child window title: "+ driver.switchTo().window(childWindow).getTitle());
+                logger.info("Switched to child window having id: " + childWindow);
+            }
+            //switch to the parent window
+            driver.switchTo().window(parent);
+        }
+    }
+
+    protected String getParentWindowId(){
+        String parent=driver.getWindowHandle();
+        logger.info("Parent window id is: " +parent);
+        return parent;
+    }
+
+    protected void switchToParentWindow(String windowId){
+        driver.switchTo().window(windowId);
+        logger.info("Switch to parent window having windowId: "+ windowId);
+    }
+
+    protected void closeChildWindow(){
+        DriverFactory.getInstance().closeDriver();
     }
 }
