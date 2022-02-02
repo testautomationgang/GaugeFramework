@@ -8,24 +8,32 @@ import static com.automation.utils.CommonUtils.*;
 public class AssertionSteps {
 
     @Step("User verify that <expected> is equal to <actual>")
-    public static void verifyEquals( String expected,String actual){
-        try{
+    public static void verifyEquals(String expected,String actual) {
+        try {
             expected = checkIfVariableThenGetValue(expected);
             actual = checkIfVariableThenGetValue(actual);
-            Assert.assertEquals(expected,actual);
-            Gauge.writeMessage("Expected text: " +expected + "Actual text: " +actual);
-        }catch (AssertionError error){
-            Gauge.writeMessage("Assertion failed, Expected text: " +expected + "Actual text: " +actual);
-        }finally {
+            Assert.assertEquals(expected, actual);
+            Gauge.writeMessage("Assertion Passed. Expected text: " + expected + " ,Actual text: " + actual);
+        } catch (AssertionError error) {
+            Gauge.writeMessage("Assertion failed, Expected text: " + expected + "Actual text: " + actual);
+        } finally {
             //Take screenshot in both Pass/ Fail
             Gauge.captureScreenshot();
         }
-
-
-
     }
 
-    public void verifyContains(){
 
+
+    @Step("User verify that <actual> contains text <expected>")
+    public void textContains(String actual,String expected){
+        expected = checkIfVariableThenGetValue(expected);
+        actual = checkIfVariableThenGetValue(actual);
+        if(actual != null && actual.contains(expected)){
+            Gauge.writeMessage("Values matched. Expected text: " + expected + "Actual text: " + actual);
+        }else {
+            Gauge.writeMessage("Assertion failed. Expected text: " + expected + "Actual text: " + actual);
+            Assert.fail();
+        }
+        Gauge.captureScreenshot();
     }
 }

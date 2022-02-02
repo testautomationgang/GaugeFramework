@@ -11,25 +11,34 @@ public class FileActions {
 
     private static Logger logger = LogManager.getLogger(FileActions.class);
 
-    public static void readExcelFile(String fileName) throws IOException {
+    public static void readExcelFile(String filePath) throws IOException {
         Workbook workbook = null;
         try {
-            String filePath = "NewFile.xlsx";
-
             // Creating a Workbook from an Excel file (.xls or .xlsx)
              workbook = WorkbookFactory.create(new File(filePath));
             // Retrieving the number of sheets in the Workbook
-            System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
+            System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets.");
             // Getting the Sheet at index zero
             Sheet sheet = workbook.getSheetAt(0);
             // Create a DataFormatter to format and get each cell's value as String
             DataFormatter dataFormatter = new DataFormatter();
 
+            int getColumnValue = 2;
+            boolean isFirstColumn = true;
+
             for (Row row : sheet) {
-                for (Cell cell : row) {
-                    String cellValue = dataFormatter.formatCellValue(cell);
+                if(!isFirstColumn){
+                    Cell cell1 = row.getCell(getColumnValue);
+                    String cellValue = dataFormatter.formatCellValue(cell1);
                     System.out.print(cellValue + "\t");
                 }
+                //Condition to skip the first row (Header)
+                isFirstColumn = false;
+
+                /*for (Cell cell : row) {
+                    String cellValue = dataFormatter.formatCellValue(cell);
+                    System.out.print(cellValue + "\t");
+                }*/
                 System.out.println();
             }
 
@@ -43,6 +52,6 @@ public class FileActions {
     }
 
     public static void main(String[] args) throws IOException {
-        readExcelFile("");
+        readExcelFile("NewFile.xlsx");
     }
 }

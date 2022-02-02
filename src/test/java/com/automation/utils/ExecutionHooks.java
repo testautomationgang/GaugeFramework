@@ -12,7 +12,7 @@ public class ExecutionHooks {
 
     @BeforeSuite
     public void initializeDriver(){
-
+        //Database pool connection
     }
 
     // BeforeSpec hook is used to instantiate the webDriver
@@ -23,13 +23,27 @@ public class ExecutionHooks {
     }
 
     @AfterSpec
-    public void afterSpec(){
+    public void afterSpec(ExecutionContext context){
         DriverFactory.getInstance().quitDriver();
+        System.out.println("=========== Spec file execution complete ===========");
+
+    }
+
+    @AfterScenario
+    public void afterScenario(ExecutionContext context){
+        if(context.getCurrentScenario().getIsFailing()){
+            //Take screenshot
+            Gauge.captureScreenshot();
+            //Capture Network Logs
+            DriverFactory.getInstance().captureNetworkLogs();
+            //Attach network log file
+            Gauge.writeMessage("Network Logs: "+"<a href=\"../test.txt\" download>Download</a>");
+        }
     }
 
     @ContinueOnFailure
     public void onFailure(){
-        DriverFactory.getInstance().captureNetworkLogs();
+
     }
 
     // Close the webDriver instance

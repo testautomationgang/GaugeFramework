@@ -56,7 +56,7 @@ public class CommonSteps {
     @Step("User store value <value> with respect to key <key> into datastore")
     public void addData(String value, String key){
         DatastoreFactory.addValueToDataStoreAgainstKey(key,value);
-        Gauge.writeMessage("Added value: "+value +" for key:" + key + " in datastore");
+        Gauge.writeMessage("Stored value: '"+value +"' against variable:{" + key + "} in the datastore.");
     }
 
     @Step("User get the value of key <key> from datastore")
